@@ -25,6 +25,7 @@ After that, every skill is available in any Claude Code session on this machine.
 | Skill | Description |
 |---|---|
 | `visual-plan` | Produces a self-contained HTML plan file with wireframes, SVG diagrams, file maps, decision matrices, checklists, and open questions. The plan is the approval gate — no code before sign-off. |
+| `visual-recap` | Turns a PR, branch, commit, or diff into an interactive HTML recap — the reverse of visual-plan. Wireframes for UI changes, split diffs for key files, schema/API summaries, and a file map. For review handoffs. |
 | `html-plan` | Dark-theme HTML planning document scoped to the Project Whirlwind stack (comm-gateway, mindblossom, book-data, infra-local). Service-tagged checklists, diagrams, and decision cards. |
 
 ---
