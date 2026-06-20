@@ -96,44 +96,31 @@ Surface the plan first; run the review concurrently. Never make the user wait on
 
 ## HTML Shell
 
-Extend the standard dark-theme shell from `html-plan`. Add these extras for visual-plan:
+Use the full shell from `html-plan` (including the theme toggle and CSS variable system). Add these extras inside the `<style>` block for visual-plan wireframes:
 
 ```css
-/* Wireframe chrome */
-.wf-frame { background: #0f1117; border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
-.wf-bar { height: 36px; background: #0d1117; border-bottom: 1px solid #1e293b; display: flex; align-items: center; padding: 0 12px; gap: 6px; }
-.wf-dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
-.wf-title { font-size: 11px; color: #475569; margin-left: 8px; font-weight: 500; }
-.wf-body { padding: 16px; }
+/* Wireframe chrome — uses page tokens so it flips with the theme toggle */
+.wf-frame { background: var(--surface-deep); border: 1px solid var(--border-sub); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+.wf-bar { height: 36px; background: var(--surface); border-bottom: 1px solid var(--border-sub); display: flex; align-items: center; padding: 0 14px; gap: 6px; }
+.wf-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+.wf-title { font-size: 11px; color: var(--text-faint); margin-left: 8px; font-weight: 500; }
+.wf-body { padding: 20px; }
 
 /* Before / after */
-.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.ba-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 0 6px; }
-
-/* CSS variables for wireframe colours — reference these inside wf-frame blocks */
-:root {
-  --wf-bg: #0f1117;
-  --wf-surface: #0d1117;
-  --wf-border: #1e293b;
-  --wf-text: #94a3b8;
-  --wf-text-strong: #e2e8f0;
-  --wf-text-muted: #475569;
-  --wf-accent: #818cf8;
-  --wf-accent-dim: #1e1b4b;
-  --wf-nav-bg: #0a0a0f;
-}
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.ba-label { font-size: 11px; font-weight: 600; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 0 8px; }
 ```
 
 ## SVG Diagram Palette
 
-For architecture and flow diagrams, use SVG inside `<div class="diagram">`:
+SVG diagrams live inside `<div class="diagram">` and use fixed colours (SVG cannot read CSS variables). Use these values — they read well against both themes:
 - Background boxes: `fill="#1e293b" stroke="#334155"`
-- Highlighted node: service accent colour (indigo `#818cf8`, sky `#38bdf8`, amber `#f59e0b`)
-- Arrow marker: `fill="#334155"` — define `#arr` once per SVG
+- Highlighted node: indigo `#818cf8`, sky `#38bdf8`, amber `#f59e0b`
+- Arrow marker: `fill="#475569"` — define `#arr` once per SVG
 - Async/enqueue arrows: `stroke-dasharray="4,3"`
-- Annotation text: `fill="#94a3b8"`, box titles: `fill="#e2e8f0"`
+- Annotation text: `fill="#94a3b8"`, box titles: `fill="#f1f5f9"`
 - Font: `font-family="-apple-system, sans-serif" font-size="12"`
-- Prefer `width="100%"` with a `viewBox` (typically 700–900 × 250–400)
+- Always use `width="100%"` with a `viewBox` (typically 700–900 × 250–400)
 
 ## Output Instructions
 
@@ -143,3 +130,7 @@ For architecture and flow diagrams, use SVG inside `<div class="diagram">`:
 4. State the file path and which tabs it contains.
 5. Do not commit the plan file unless asked.
 6. Do not begin implementation until the user explicitly approves.
+
+---
+
+*Adapted from [BuilderIO/skills](https://github.com/BuilderIO/skills/tree/main/skills/visual-plan) — rewritten to produce self-contained local HTML without the Agent-Native dependency.*
