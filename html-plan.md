@@ -28,94 +28,166 @@ Use this exact shell — replace only the title, subtitle, tab list, and panel c
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PLAN TITLE</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; background: #0f0f13; color: #e2e8f0; line-height: 1.6; }
-  .page { max-width: 980px; margin: 0 auto; padding: 40px 24px; }
-  h1 { font-size: 22px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-  .subtitle { color: #64748b; font-size: 13px; margin-bottom: 36px; }
-  h2 { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin: 28px 0 12px; }
-  h3 { font-size: 14px; font-weight: 600; color: #cbd5e1; margin: 18px 0 8px; }
-  p { color: #94a3b8; margin-bottom: 10px; font-size: 13px; }
+  /* ── Theme tokens ── */
+  :root {
+    --bg:           #111827;
+    --surface:      #1e293b;
+    --surface-deep: #0f172a;
+    --border:       #334155;
+    --border-sub:   #1e293b;
+    --text:         #e2e8f0;
+    --text-muted:   #94a3b8;
+    --text-faint:   #64748b;
+    --heading:      #f8fafc;
+    --accent:       #818cf8;
+    --accent-dim:   #1e1b4b;
+    --green:        #4ade80;
+    --green-bg:     #052e16;
+    --amber:        #fbbf24;
+    --amber-bg:     #1c1007;
+    --red:          #f87171;
+    --red-bg:       #1c0808;
+    --blue:         #38bdf8;
+    --blue-bg:      #0c1a2e;
+    --code-text:    #93c5fd;
+    --code-key:     #86efac;
+    --code-val:     #fde68a;
+    --code-comment: #475569;
+  }
+  body.light {
+    --bg:           #ffffff;
+    --surface:      #f8fafc;
+    --surface-deep: #f1f5f9;
+    --border:       #cbd5e1;
+    --border-sub:   #e2e8f0;
+    --text:         #1e293b;
+    --text-muted:   #475569;
+    --text-faint:   #94a3b8;
+    --heading:      #0f172a;
+    --accent:       #6366f1;
+    --accent-dim:   #eef2ff;
+    --green:        #16a34a;
+    --green-bg:     #f0fdf4;
+    --amber:        #d97706;
+    --amber-bg:     #fffbeb;
+    --red:          #dc2626;
+    --red-bg:       #fef2f2;
+    --blue:         #0284c7;
+    --blue-bg:      #f0f9ff;
+    --code-text:    #4f46e5;
+    --code-key:     #16a34a;
+    --code-val:     #b45309;
+    --code-comment: #94a3b8;
+  }
 
-  .tabs { display: flex; gap: 2px; border-bottom: 1px solid #1e293b; margin-bottom: 24px; flex-wrap: wrap; }
-  .tab { padding: 8px 16px; cursor: pointer; font-size: 13px; color: #64748b; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; }
-  .tab:hover { color: #cbd5e1; }
-  .tab.active { color: #818cf8; border-bottom-color: #818cf8; }
+  /* ── Base ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.2s, color 0.2s; }
+  .page { max-width: 980px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── Toggle ── */
+  .theme-toggle { position: fixed; top: 16px; right: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.15s; z-index: 100; }
+  .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
+
+  /* ── Typography ── */
+  h1 { font-size: 24px; font-weight: 700; color: var(--heading); margin-bottom: 6px; }
+  .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 40px; }
+  h2 { font-size: 16px; font-weight: 600; color: var(--heading); margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-sub); }
+  h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 20px 0 8px; }
+  p { color: var(--text-muted); margin-bottom: 12px; }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border-sub); margin-bottom: 28px; flex-wrap: wrap; }
+  .tab { padding: 9px 18px; cursor: pointer; font-size: 14px; color: var(--text-faint); border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .panel { display: none; }
   .panel.active { display: block; }
 
-  pre { background: #0d1117; border: 1px solid #1e293b; border-radius: 6px; padding: 16px; font-family: monospace; font-size: 12px; color: #93c5fd; overflow-x: auto; margin-bottom: 14px; line-height: 1.7; }
-  .comment { color: #475569; }
-  .key { color: #86efac; }
-  .val { color: #fde68a; }
-  code { font-family: monospace; font-size: 12px; background: #1e293b; padding: 1px 5px; border-radius: 3px; color: #93c5fd; }
+  /* ── Code ── */
+  pre { background: var(--surface-deep); border: 1px solid var(--border-sub); border-radius: 8px; padding: 18px; font-family: ui-monospace, "SF Mono", monospace; font-size: 13px; color: var(--code-text); overflow-x: auto; margin-bottom: 16px; line-height: 1.75; }
+  .comment { color: var(--code-comment); }
+  .key { color: var(--code-key); }
+  .val { color: var(--code-val); }
+  code { font-family: ui-monospace, "SF Mono", monospace; font-size: 13px; background: var(--surface); padding: 2px 6px; border-radius: 4px; color: var(--code-text); border: 1px solid var(--border-sub); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
-  th { text-align: left; padding: 8px 12px; background: #0d1117; color: #64748b; font-weight: 600; border-bottom: 1px solid #1e293b; font-size: 12px; }
-  td { padding: 9px 12px; border-bottom: 1px solid #1a2332; vertical-align: top; color: #94a3b8; }
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+  th { text-align: left; padding: 10px 14px; background: var(--surface-deep); color: var(--text-faint); font-weight: 600; border-bottom: 1px solid var(--border); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border-sub); vertical-align: top; color: var(--text-muted); }
   tr:last-child td { border-bottom: none; }
-  tr.rec { background: #0f2d1a; }
-  tr.rec td:first-child::after { content: " ★"; color: #4ade80; font-size: 11px; }
+  tr:hover td { background: var(--surface); }
+  tr.rec td { background: var(--green-bg); }
+  tr.rec td:first-child::after { content: " ★"; color: var(--green); font-size: 11px; }
 
-  .steps { display: grid; gap: 12px; counter-reset: steps; }
-  .step { background: #0d1117; border: 1px solid #1e293b; border-radius: 8px; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start; }
-  .step-num { width: 28px; height: 28px; border-radius: 50%; background: #1e293b; color: #818cf8; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  /* ── Steps ── */
+  .steps { display: grid; gap: 12px; }
+  .step { background: var(--surface); border: 1px solid var(--border-sub); border-radius: 10px; padding: 18px 20px; display: grid; grid-template-columns: 32px 1fr; gap: 16px; align-items: start; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .step-body h3 { margin-top: 0; margin-bottom: 6px; }
 
+  /* ── Checklist ── */
   .checklist { list-style: none; display: grid; gap: 8px; }
-  .checklist li { display: flex; gap: 10px; padding: 10px 14px; background: #0d1117; border: 1px solid #1e293b; border-radius: 6px; font-size: 13px; color: #94a3b8; align-items: flex-start; }
-  .checklist li .box { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #334155; flex-shrink: 0; margin-top: 2px; }
+  .checklist li { display: flex; gap: 12px; padding: 11px 16px; background: var(--surface); border: 1px solid var(--border-sub); border-radius: 8px; font-size: 14px; color: var(--text-muted); align-items: flex-start; }
+  .checklist li .box { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 3px; }
 
-  /* Service / status tags */
-  .tag { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
-  .tag.cg      { background: #0f172a; color: #a78bfa; border: 1px solid #4c1d95; }        /* comm-gateway */
-  .tag.mb      { background: #0f1f2a; color: #38bdf8; border: 1px solid #0c4a6e; }        /* mindblossom */
-  .tag.bd      { background: #1a1a05; color: #fbbf24; border: 1px solid #78350f; }        /* book-data */
-  .tag.infra   { background: #1a1205; color: #fb923c; border: 1px solid #7c2d12; }        /* infra-local */
-  .tag.both    { background: #0f1a12; color: #4ade80; border: 1px solid #14532d; }        /* multiple services */
-  .tag.new     { background: #0f172a; color: #818cf8; border: 1px solid #312e81; }        /* new file/feature */
-  .tag.extend  { background: #0f2414; color: #4ade80; border: 1px solid #166534; }        /* extends existing */
-  .tag.done    { background: #0f2d1a; color: #86efac; border: 1px solid #166534; }        /* already done */
-  .tag.blocker { background: #2d0f0f; color: #ef4444; border: 1px solid #7f1d1d; }        /* blocked */
-  .tag.one-time{ background: #1a0f05; color: #fb923c; border: 1px solid #7c2d12; }        /* one-time setup */
+  /* ── Tags ── */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+  .tag.cg      { background: var(--accent-dim); color: #a78bfa; border: 1px solid #4c1d95; }
+  .tag.mb      { background: var(--blue-bg);    color: var(--blue); border: 1px solid #0c4a6e; }
+  .tag.bd      { background: var(--amber-bg);   color: var(--amber); border: 1px solid #78350f; }
+  .tag.infra   { background: var(--amber-bg);   color: #fb923c; border: 1px solid #7c2d12; }
+  .tag.both    { background: var(--green-bg);   color: var(--green); border: 1px solid #166534; }
+  .tag.new     { background: var(--accent-dim); color: var(--accent); border: 1px solid #312e81; }
+  .tag.extend  { background: var(--green-bg);   color: var(--green); border: 1px solid #166534; }
+  .tag.done    { background: var(--green-bg);   color: var(--green); border: 1px solid #166534; opacity: 0.7; }
+  .tag.blocker { background: var(--red-bg);     color: var(--red); border: 1px solid #7f1d1d; }
+  .tag.one-time{ background: var(--amber-bg);   color: #fb923c; border: 1px solid #7c2d12; }
 
+  /* ── Cards ── */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .card { background: #0d1117; border: 1px solid #1e293b; border-radius: 8px; padding: 18px; }
-  .card h3 { margin-top: 0; font-size: 13px; }
-  .card.highlight { border-color: #818cf8; }
-  .card .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: #1e1b4b; color: #a5b4fc; border: 1px solid #312e81; margin-left: 8px; vertical-align: middle; }
+  .card { background: var(--surface); border: 1px solid var(--border-sub); border-radius: 10px; padding: 20px; }
+  .card h3 { margin-top: 0; font-size: 14px; }
+  .card.highlight { border-color: var(--accent); }
+  .card .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); border: 1px solid #312e81; margin-left: 8px; vertical-align: middle; }
 
+  /* ── Decisions ── */
   .decisions { display: grid; gap: 16px; }
-  .decision { background: #0d1117; border: 1px solid #1e293b; border-radius: 8px; padding: 20px; }
+  .decision { background: var(--surface); border: 1px solid var(--border-sub); border-radius: 10px; padding: 22px; }
   .decision h3 { margin-top: 0; }
-  .options { display: grid; gap: 8px; margin-top: 12px; }
-  .option { padding: 10px 14px; border-radius: 6px; border: 1px solid #1e293b; font-size: 13px; color: #94a3b8; }
-  .option.chosen { border-color: #4ade80; background: #0f2d1a; color: #86efac; }
-  .option .label { font-weight: 600; color: #e2e8f0; font-size: 12px; margin-bottom: 3px; }
-  .option.chosen .label::after { content: " — recommended"; color: #4ade80; font-weight: 400; }
-  .tradeoff { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .options { display: grid; gap: 10px; margin-top: 14px; }
+  .option { padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-sub); font-size: 14px; color: var(--text-muted); background: var(--surface-deep); }
+  .option.chosen { border-color: var(--green); background: var(--green-bg); color: var(--text); }
+  .option .label { font-weight: 600; color: var(--text); font-size: 14px; margin-bottom: 4px; }
+  .option.chosen .label::after { content: " — recommended"; color: var(--green); font-weight: 400; font-size: 13px; }
+  .tradeoff { font-size: 13px; color: var(--text-faint); margin-top: 4px; }
 
-  .diagram { background: #0d1117; border: 1px solid #1e293b; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 20px; }
+  /* ── Diagrams ── */
+  .diagram { background: var(--surface-deep); border: 1px solid var(--border-sub); border-radius: 10px; padding: 28px; overflow-x: auto; margin-bottom: 24px; }
 
-  .alert { background: #0f1a0a; border: 1px solid #166534; border-left: 3px solid #4ade80; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #86efac; margin-bottom: 16px; }
-  .alert.warn { background: #1a1205; border-color: #92400e; border-left-color: #f59e0b; color: #fcd34d; }
-  .alert.info { background: #0f172a; border-color: #1e3a5f; border-left-color: #38bdf8; color: #7dd3fc; }
+  /* ── Alerts ── */
+  .alert { background: var(--green-bg); border: 1px solid var(--green); border-left: 3px solid var(--green); border-radius: 8px; padding: 14px 18px; font-size: 14px; color: var(--green); margin-bottom: 18px; }
+  .alert.warn { background: var(--amber-bg); border-color: var(--amber); border-left-color: var(--amber); color: var(--amber); }
+  .alert.info { background: var(--blue-bg); border-color: var(--blue); border-left-color: var(--blue); color: var(--blue); }
 
-  .questions { display: grid; gap: 12px; }
-  .question { background: #0d1117; border: 1px solid #2d1a0f; border-left: 3px solid #f59e0b; border-radius: 6px; padding: 14px 16px; }
-  .question .q { font-size: 13px; color: #fcd34d; font-weight: 600; margin-bottom: 6px; }
-  .question .context { font-size: 13px; color: #78716c; }
+  /* ── Questions ── */
+  .questions { display: grid; gap: 14px; }
+  .question { background: var(--surface); border: 1px solid var(--border-sub); border-left: 3px solid var(--amber); border-radius: 8px; padding: 16px 18px; }
+  .question .q { font-size: 14px; color: var(--amber); font-weight: 600; margin-bottom: 6px; }
+  .question .context { font-size: 14px; color: var(--text-muted); }
 </style>
 </head>
 <body>
+<button class="theme-toggle" onclick="document.body.classList.toggle('light');this.textContent=document.body.classList.contains('light')?'Dark':'Light'">Light</button>
 <div class="page">
   <h1>PLAN TITLE</h1>
   <p class="subtitle">One-sentence description of what this plan covers and why.</p>
 
   <div class="tabs">
-    <div class="tab active" onclick="show('overview')">Overview</div>
+    <div class="tab active" onclick="show('overview',this)">Overview</div>
     <!-- add/remove tabs as needed -->
   </div>
 
@@ -125,11 +197,11 @@ Use this exact shell — replace only the title, subtitle, tab list, and panel c
 
 </div>
 <script>
-function show(id) {
+function show(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
+  el.classList.add('active');
 }
 </script>
 </body>
