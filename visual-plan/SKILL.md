@@ -143,3 +143,7 @@ For architecture and flow diagrams, use SVG inside `<div class="diagram">`:
 4. State the file path and which tabs it contains.
 5. Do not commit the plan file unless asked.
 6. Do not begin implementation until the user explicitly approves.
+
+---
+
+*Adapted from [BuilderIO/skills](https://github.com/BuilderIO/skills/tree/main/skills/visual-plan) — rewritten to produce self-contained local HTML without the Agent-Native dependency.*

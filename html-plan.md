@@ -220,3 +220,7 @@ Reference these when describing what each service does or who owns a task:
 2. Write the complete HTML file — never truncate it.
 3. After writing, print a one-line summary of where the file was written and which tabs it contains.
 4. Do not commit the file unless asked.
+
+---
+
+*Inspired by [The Unreasonable Effectiveness of HTML](https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html)*

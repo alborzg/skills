@@ -1,6 +1,7 @@
 ---
 name: cmux-workspace
 description: "Work inside the current cmux workspace and terminal. Use for cmux workspace, current workspace, caller surface, panes, surfaces, socket targeting, and non-interfering cmux automation."
+source: https://github.com/manaflow-ai/cmux/tree/main/skills/cmux-workspace
 ---
 
 # cmux Workspace

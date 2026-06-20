@@ -1,6 +1,7 @@
 ---
 name: cmux-custom-sidebar
 description: "Build a custom cmux sidebar from a plain-language request. Use when the user asks for a custom sidebar, a sidebar that shows their workspaces/tabs/PRs/clock, a vibe-coded sidebar, or anything involving files in ~/.config/cmux/sidebars/. Covers authoring the interpreted SwiftUI-style file, enabling the beta flag, selecting it, and iterating with hot reload."
+source: https://github.com/manaflow-ai/cmux/tree/main/skills/cmux-custom-sidebar
 ---
 
 # cmux Custom Sidebar

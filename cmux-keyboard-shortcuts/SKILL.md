@@ -1,6 +1,7 @@
 ---
 name: cmux-keyboard-shortcuts
 description: "Guide and apply cmux keyboard shortcut customization. Use when the user asks to customize, rebind, unbind, reset, audit, or create shortcut templates for cmux, including tmux-style, Vim-style, terminal-first, browser-heavy, iTerm/Terminal-like, or agent-triage layouts."
+source: https://github.com/manaflow-ai/cmux/tree/main/skills/cmux-keyboard-shortcuts
 ---
 
 # cmux-keyboard-shortcuts
