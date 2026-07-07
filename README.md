@@ -30,6 +30,15 @@ After that, every skill is available in any Claude Code session on this machine.
 
 ---
 
+### Process & Delivery
+
+| Skill | Description |
+|---|---|
+| `orchestrating-delivery` | Runs a delivery as project manager/tech lead: committed plan, issue, Sonnet subagents implementing each task, two-stage per-task review, PR, dual spec-compliance + over-engineering review, and a user-approved merge gate. |
+| `handoff` | Records verified session status and next steps to `docs/WORKLOG.md` so a later session resumes without re-deriving context. |
+
+---
+
 ### cmux — Terminal Multiplexer
 
 Skills for operating [cmux](https://github.com/manaflow-ai/cmux) as a tool in agentic workflows.
