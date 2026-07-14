@@ -36,6 +36,7 @@ After that, every skill is available in any Claude Code session on this machine.
 |---|---|
 | `orchestrating-delivery` | Runs a delivery as project manager/tech lead: committed plan, issue, Sonnet subagents implementing each task, two-stage per-task review, PR, dual spec-compliance + over-engineering review, and a user-approved merge gate. |
 | `handoff` | Records verified session status and next steps to `docs/WORKLOG.md` so a later session resumes without re-deriving context. |
+| `next-issue` | Works a GitHub issue end to end: claim, size (direct vs orchestrated), isolated branch/worktree, two-lens review, PR, worklog, cleanup, and a paste-ready prompt naming the next unclaimed priority issue. |
 
 ---
 
