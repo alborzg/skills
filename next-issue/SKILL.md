@@ -20,7 +20,7 @@ its artifact is not done.
 ## The loop
 
 1. **Read, then claim.** Read the issue in full, including discussion, linked
-   issues/PRs, and recent commits touching the affected area — before any
+   issues/PRs, and recent commits touching the affected area, before any
    sizing or code:
    ```bash
    gh issue view <N> --comments
@@ -36,7 +36,7 @@ its artifact is not done.
    If requirements are ambiguous, ask the developer now, not after the diff
    exists. Artifact: the claim comment.
 2. **Size it, out loud.** One line: "Direct: single-focus change to X" or
-   "Orchestrating: multi-task/cross-layer because Y". Judgment call — issues
+   "Orchestrating: multi-task/cross-layer because Y". Judgment call: issues
    that need a plan, several independent tasks, or more than one layer go to
    orchestrating-delivery; small single-focus issues go direct. Artifact: the
    stated decision.
@@ -46,12 +46,16 @@ its artifact is not done.
    commit. Artifact: the branch name.
 4. **Build.**
    - Orchestrated path: REQUIRED SUB-SKILL: orchestrating-delivery. It owns
-     plan, dispatch, review, and PR; rejoin this loop at step 7.
+     plan, dispatch, review, and PR; rejoin this loop at step 7. Dispatched
+     agents' replies may not route back to you (observed when this session
+     is itself an agent): the completion signal is repo state (commits and
+     findings files in the worktree), never an awaited message. Have
+     reviewers write findings to a file; poll the tree, don't stall.
    - Direct path: superpowers:test-driven-development; for bugs, reproduce
      end-to-end before fixing; superpowers:verification-before-completion
      before claiming done.
 5. **Two-lens review** (direct path only; orchestrating-delivery already
-   includes it). Fresh eyes, never self-review — the implementing context is
+   includes it). Fresh eyes, never self-review, the implementing context is
    biased toward its own diff. Lens one: spec compliance against the issue
    (/code-review or superpowers:requesting-code-review). Lens two:
    ponytail:ponytail-review for over-engineering. Fix findings, re-run the
@@ -59,7 +63,7 @@ its artifact is not done.
 6. **PR.** Push and open a PR that closes the issue. Reference style:
    `owner/repo#N (short title)` plus the URL. The user's voice, no AI
    attribution. The PR is the deliverable; the user merges. Artifact: PR URL.
-7. **Record.** REQUIRED SUB-SKILL: handoff — update `docs/WORKLOG.md` with
+7. **Record.** REQUIRED SUB-SKILL: handoff, update `docs/WORKLOG.md` with
    issue#, PR#, and verified status. Comment the PR link on the issue.
    Artifact: the worklog commit.
 8. **Clean up.** Primary checkout back to main. Remove worktrees you created
