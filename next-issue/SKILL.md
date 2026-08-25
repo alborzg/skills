@@ -40,10 +40,14 @@ its artifact is not done.
    that need a plan, several independent tasks, or more than one layer go to
    orchestrating-delivery; small single-focus issues go direct. Artifact: the
    stated decision.
-3. **Isolate.** Feature branch `issue-<N>-<slug>` or a worktree
-   (REQUIRED SUB-SKILL: superpowers:using-git-worktrees). Never on main. The
-   checkout is shared state: verify the branch immediately before every
-   commit. Artifact: the branch name.
+3. **Isolate.** If this session is a dispatched agent, or anything else (the
+   human, another agent) may use this checkout, a worktree is REQUIRED
+   (REQUIRED SUB-SKILL: superpowers:using-git-worktrees): the primary checkout
+   belongs to the human, never switch its branch. Branching in place
+   (`issue-<N>-<slug>`) is allowed only in a human-attended session working
+   alone. Never on main. The checkout is shared state: verify the branch
+   immediately before every commit. Artifact: the worktree path (or, attended
+   sessions only, the branch name).
 4. **Build.**
    - Orchestrated path: REQUIRED SUB-SKILL: orchestrating-delivery. It owns
      plan, dispatch, review, and PR; rejoin this loop at step 7. Dispatched
@@ -67,9 +71,19 @@ its artifact is not done.
    issue#, PR#, and verified status. Comment the PR link on the issue.
    Artifact: the worklog commit.
 8. **Clean up.** Primary checkout back to main. Remove worktrees you created
-   (`git worktree remove <path> && git worktree prune`). Delete local branches
-   whose PRs have merged. Never delete the unmerged feature branch. Artifact:
-   `git worktree list` shows only the primary; `git status` clean.
+   (`git worktree remove <path> && git worktree prune`) and stop everything
+   you started: background processes (dev servers, watchers, log tails) and,
+   on iOS work, simulators you booted (`xcrun simctl shutdown <udid>`).
+   Then sweep orphans from dead sessions in every repo you touched, under one
+   safety rule:
+   - Removable = clean tree AND merged PR. Squash merges defeat
+     `git branch --merged` and ancestry checks, so verify merge state via
+     `gh pr list --head <branch> --state merged`, never via git alone.
+   - A dirty tree, an unmerged branch, or an open PR may be another session
+     mid-flight: leave it and note it in the worklog instead.
+   Delete local branches whose PRs have merged. Never delete the unmerged
+   feature branch. Artifact: `git worktree list` shows only the primary plus
+   known-active worktrees; `git status` clean.
 9. **Handoff prompt.** Pick the next issue from the tracker, not from memory:
    ```bash
    gh issue list --state open --json number,title,labels,milestone,assignees,url
@@ -91,6 +105,7 @@ its artifact is not done.
 | Excuse | Reality |
 |---|---|
 | "I'm the only agent, no claim needed" | Claims live where the issue lives; other sessions and machines cannot see your checkout. |
+| "A branch is isolation enough" | A branch in the primary checkout still occupies it; the human comes back to a stolen checkout. Agents get worktrees, always. |
 | "The diff is tiny, skip the second lens" | The lenses catch different failure classes; small diffs over-engineer too. |
 | "I'll review it myself, it's faster" | Self-review misses what fresh context catches. |
 | "Leave the worktree, next session might reuse it" | Stale worktrees and branches are the top cause of confused cold starts. |

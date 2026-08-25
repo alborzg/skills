@@ -22,6 +22,20 @@ session close, independent of any agent transcript.
 using the structure below. If the repo is public, keep the worklog secret-free,
 same rule as any committed file.
 
+**Never commit the worklog inside a feature branch.** Every session prepends its
+entry at the same top-of-file anchor (`## Next up` + a new dated section), so
+folding it into the feature PR makes each PR after the first conflict there. It
+also pollutes the reviewable diff with bookkeeping. Land it on the trunk on its
+own:
+
+- Trunk accepts direct pushes (`gh api repos/{owner}/{repo}/branches/{trunk}
+  --jq .protected` is `false`)? Commit straight to the trunk and push. No PR.
+- Trunk is protected? Use a dedicated short-lived `worklog/<date>` branch and PR,
+  never the feature branch.
+
+A `docs/WORKLOG.md merge=union` line in `.gitattributes` makes concurrent
+worklog writes auto-union instead of conflicting; add it if it's missing.
+
 ## Process
 
 1. **Gather verified status, evidence not vibes.** Pull real state, do not
@@ -31,9 +45,16 @@ same rule as any committed file.
    - test/build status you actually ran this session
 2. **Read the existing worklog first** and reconcile. Refresh "Next up", do not
    leave stale items or duplicate entries.
-3. **Write a new dated entry** at the top of the log section and update
+3. **Switch to the trunk, synced.** `git checkout <trunk> && git pull --ff-only`
+   before editing, so the entry lands on current trunk, not stale feature state.
+   (Skip only if the trunk is protected and you must route through a
+   `worklog/<date>` branch instead.)
+4. **Write a new dated entry** at the top of the log section and update
    "Next up" to the concrete next actions.
-4. Keep it terse. PR numbers, branch names, and file refs over prose. One
+5. **Commit and push the worklog on its own** (see "Where it lives"). If the push
+   is rejected by a concurrent session's push, `git pull --rebase` (the
+   `merge=union` attribute resolves the worklog automatically) and push again.
+6. Keep it terse. PR numbers, branch names, and file refs over prose. One
    screen, not an essay.
 
 ## Worklog structure
