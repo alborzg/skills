@@ -40,6 +40,14 @@ After that, every skill is available in any Claude Code session on this machine.
 
 ---
 
+### Writing
+
+| Skill | Description |
+|---|---|
+| `unslop` | Cuts AI tells from prose (docs, PR bodies, commit messages, chat) and adds voice. Catches significance inflation, em dashes, "not just X, it's Y", filler, passive voice, and 25 other patterns. Adapted from [poteto/plugins](https://github.com/poteto/plugins/blob/main/pstack/skills/unslop/SKILL.md). |
+
+---
+
 ### cmux — Terminal Multiplexer
 
 Skills for operating [cmux](https://github.com/manaflow-ai/cmux) as a tool in agentic workflows.
